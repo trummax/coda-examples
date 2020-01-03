@@ -1,0 +1,25 @@
+# my global config
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'basic-prometheus-example'
+  
+scrape_configs:
+  # This job scrapes the prometheus instance itself to get 
+  # introspective metrics about its own operation. 
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+    
+  # This job scrapes the "coda" host on port 10000, which has been 
+  # defined in our docker-compose file
+  - job_name: "coda"
+    scrape_interval: "15s"
+    static_configs:
+      - targets: ['coda:10000']
